@@ -1,0 +1,21 @@
+{% extends "base_email.html.jinja" %}
+
+{% block title_h1 %}
+<h1 style="font-size: 40px;">Press the button to confirm your email for the registration</h1>
+{% endblock %}
+
+{% block email_body %}
+<p style="font-size: 18px;">
+    {{ body_text }}
+</p>
+{% endblock %}
+
+{% block call_to_action %}
+<div style="text-align: center;">
+    <a href="https://www.yourapp.com/confirmation?token={{ token }}" style="display: inline-block; background-color: #98bfba; color: #FFFFFF; border-radius:64px; padding: 15px 32px; text-align: center; text-decoration: none; font-size: 16px; margin: 20px 2px; cursor: pointer; text-transform: uppercase;">
+        Confirm Email
+    </a>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,53 @@
+name: General CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-role-based-ci:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - uses: actions/checkout@v3
+      - name: Set up Docker variables
+        run: |
+          echo "JWT_TOKEN_SECRET_KEY=${{ secrets.JWT_TOKEN_SECRET_KEY }}" >> .env
+          echo "JWT_TOKEN_ALGORITHM=${{ secrets.JWT_TOKEN_ALGORITHM }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> .env
+          echo "CONFIRMATION_EMAIL_SENDER=${{ secrets.CONFIRMATION_EMAIL_SENDER }}" >> .env
+          echo "POSTGRES_USER=postgres" >> .env
+          echo "POSTGRES_PASSWORD=postgres" >> .env
+          echo "POSTGRES_DB=postgres" >> .env
+          echo "DB_USERNAME=postgres" >> .env
+          echo "DB_PASS=postgres" >> .env
+          echo "DB_NAME=postgres" >> .env
+          echo "DB_HOST=172.17.0.1" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "ENVIRONMENT=test" >> .env
+
+      - name: Run linters
+        run: |
+          docker-compose up -d role-based-backend-unit-tests
+          docker exec role-based-app-backend-unit-tests poetry run pylint --extension-pkg-whitelist='pydantic' role-based_app
+          docker exec role-based-app-backend-unit-tests poetry run pylint --extension-pkg-whitelist='pydantic' tests
+          docker exec role-based-app-backend-unit-tests poetry run flake8 role-based_app
+          docker exec role-based-app-backend-unit-tests poetry run flake8 tests
+
+      - name: Run Docker Tests
+        run: |
+          docker-compose up -d role-based-backend
+          docker exec role-based-app-backend poetry run pytest --disable-warnings -v tests
