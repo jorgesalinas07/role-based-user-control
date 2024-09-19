@@ -9,7 +9,6 @@ from role_based_app.users.domain.exceptions.invalid_password_error import (
 )
 from role_based_app.users.domain.exceptions.invalid_token_error import InvalidTokenError
 
-# from role-based_app.users.domain.exceptions.phone_number_not_provided import PhoneNumberNotProvided
 from role_based_app.users.domain.exceptions.not_active_account_error import (
     NotActiveAccountError,
 )
@@ -48,9 +47,7 @@ def _service_dependencies(mocker):
     }
 
 
-def test__password_validator_returns_true_when_valid_password(
-    dependencies, user_factory
-):
+def test__password_validator_returns_true_when_valid_password(dependencies, user_factory):
     service = itemgetter("service")(dependencies)
     password = faker.random_int()
     user = user_factory(password=password, password_confirmation=password)
@@ -73,9 +70,7 @@ def test__password_validator_raise_invalid_password_when_passwords_dont_match(
 
 def test_gen_verification_token_was_called_correctly(dependencies, user_factory):
     service = itemgetter("service")(dependencies)
-    token_authentication_repository = itemgetter("token_authentication_repository")(
-        dependencies
-    )
+    token_authentication_repository = itemgetter("token_authentication_repository")(dependencies)
     user = user_factory()
     payload = {
         "user_id": str(user.id),
@@ -104,7 +99,9 @@ def test_send_phone_message_code_was_called_correctly_in_phone_auth_allowed_envi
 
 
 def test_send_phone_message_code_was_not_called_when_test_environment_on(
-    dependencies, mocker, user_factory,
+    dependencies,
+    mocker,
+    user_factory,
 ):
 
     service = itemgetter("service")(dependencies)
@@ -117,9 +114,7 @@ def test_send_phone_message_code_was_not_called_when_test_environment_on(
     phone_message_repository.send_phone_message_code.assert_not_called()
 
 
-def test_login_raises_invalid_credentials_error(
-    dependencies, mocker, user_login_factory
-):
+def test_login_raises_invalid_credentials_error(dependencies, mocker, user_login_factory):
     service = itemgetter("service")(dependencies)
     user_repository = itemgetter("user_repository")(dependencies)
     user = user_login_factory()
@@ -133,9 +128,7 @@ def test_login_raises_invalid_credentials_error(
 def test_login_raises_not_active_account_error(dependencies, mocker, user_factory):
     user_repository = itemgetter("user_repository")(dependencies)
     service = itemgetter("service")(dependencies)
-    user = user_factory(
-        phone_number=faker.random_number(digits=15), is_verified=False, email=None
-    )
+    user = user_factory(phone_number=faker.random_number(digits=15), is_verified=False, email=None)
     user_repository.get_by_phone_number = mocker.Mock(return_value=user)
 
     with pytest.raises(NotActiveAccountError):
@@ -150,16 +143,12 @@ def test_login_returns_token_when_valid_credentials_active_account_and_correct_p
     user_login = user_login_factory()
     user = user_factory(is_verified=True)
     service._is_correct_password = mocker.Mock(return_value=True)
-    token_authentication_repository = itemgetter("token_authentication_repository")(
-        dependencies
-    )
+    token_authentication_repository = itemgetter("token_authentication_repository")(dependencies)
     user_repository.get_by_email = mocker.Mock(return_value=user)
 
     token = faker.uuid4()
 
-    token_authentication_repository.gen_verification_token = mocker.Mock(
-        return_value=token
-    )
+    token_authentication_repository.gen_verification_token = mocker.Mock(return_value=token)
 
     result = service.login(user_login)
 
@@ -170,9 +159,7 @@ def test_validate_code_raises_invalid_token_when_type_is_not_email_confirmation(
     dependencies, mocker
 ):
     service = itemgetter("service")(dependencies)
-    token_authentication_repository = itemgetter("token_authentication_repository")(
-        dependencies
-    )
+    token_authentication_repository = itemgetter("token_authentication_repository")(dependencies)
     payload = {
         "user_id": "user.id",
         "exp": EXP_TOKEN_SIGNUP_HOURS,
@@ -188,9 +175,7 @@ def test_validate_code_returns_true_when_successful_authentication_completed(
     dependencies, mocker, user_factory
 ):
     service = itemgetter("service")(dependencies)
-    token_authentication_repository = itemgetter("token_authentication_repository")(
-        dependencies
-    )
+    token_authentication_repository = itemgetter("token_authentication_repository")(dependencies)
     user_repository = itemgetter("user_repository")(dependencies)
     user = user_factory()
     user_authenticated = user_factory(is_verified=True)

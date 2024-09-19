@@ -2,8 +2,13 @@ import pytest
 from fastapi import HTTPException, Request
 
 from role_based_app.shared.infrastructure.auth.auth_bearer import JWTBearer
-from role_based_app.users.domain.services.user_service import EXP_TOKEN_LOGIN_HOURS, LOGIN_TOKEN_TYPE
-from role_based_app.users.infrastructure.persistance.user_repository import JWTAuthenticationRepository
+from role_based_app.users.domain.services.user_service import (
+    EXP_TOKEN_LOGIN_HOURS,
+    LOGIN_TOKEN_TYPE,
+)
+from role_based_app.users.infrastructure.persistance.user_repository import (
+    JWTAuthenticationRepository,
+)
 
 
 @pytest.mark.asyncio

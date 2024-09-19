@@ -2,9 +2,7 @@ def whatsapp_api_successful_response():
     return {
         "messaging_product": "whatsapp",
         "contacts": [{"input": "570000000000", "wa_id": "570000000000"}],
-        "messages": [
-            {"id": "wamid.HBgMNTczMTU4ODYzMTE3FQIAERgSQzRBNjIyQTNEQTUxMzYxQTBCAA=="}
-        ],
+        "messages": [{"id": "wamid.HBgMNTczMTU4ODYzMTE3FQIAERgSQzRBNjIyQTNEQTUxMzYxQTBCAA=="}],
     }
 
 

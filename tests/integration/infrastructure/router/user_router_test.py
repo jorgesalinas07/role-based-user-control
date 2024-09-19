@@ -2,8 +2,13 @@ from faker import Faker
 from fastapi.testclient import TestClient
 from role_based_app.main import app
 import pytest
-from role_based_app.users.domain.services.user_service import EXP_TOKEN_LOGIN_HOURS, LOGIN_TOKEN_TYPE
-from role_based_app.users.infrastructure.persistance.user_repository import JWTAuthenticationRepository
+from role_based_app.users.domain.services.user_service import (
+    EXP_TOKEN_LOGIN_HOURS,
+    LOGIN_TOKEN_TYPE,
+)
+from role_based_app.users.infrastructure.persistance.user_repository import (
+    JWTAuthenticationRepository,
+)
 
 client = TestClient(app)
 faker = Faker()
@@ -70,9 +75,7 @@ def user_sign_up_payload(
         ),
     ],
 )
-def test_sign_up(
-    user_payload, expected_exception, environment, monkeypatch
-):
+def test_sign_up(user_payload, expected_exception, environment, monkeypatch):
     if environment:
         monkeypatch.setenv("ENVIRONMENT", environment)
     user = user_payload

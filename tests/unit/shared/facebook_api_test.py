@@ -30,9 +30,7 @@ def test__parse_send_whatsapp_message_when_response_success(mocker):
     response = mocker.create_autospec(requests.Response)
     response.ok = True
     response.status_code = 200
-    response.url = (
-        f"https://{FACEBOOK_API_HOST}/{FACEBOOK_API_VERSION}/{FACEBOOK_API_ID}/messages"
-    )
+    response.url = f"https://{FACEBOOK_API_HOST}/{FACEBOOK_API_VERSION}/{FACEBOOK_API_ID}/messages"
     response.text = "error"
     mocker.patch("requests.Response.json").return_value = mock_response
 
@@ -52,9 +50,7 @@ def test_parse_send_whatsapp_message_response_raises_whatsapp_response_error_whe
     response = mocker.create_autospec(requests.Response)
     response.ok = False
     response.status_code = 400
-    response.url = (
-        f"https://{FACEBOOK_API_HOST}/{FACEBOOK_API_VERSION}/{FACEBOOK_API_ID}/messages"
-    )
+    response.url = f"https://{FACEBOOK_API_HOST}/{FACEBOOK_API_VERSION}/{FACEBOOK_API_ID}/messages"
     response.text = "error"
     mocker.patch("requests.Response.json").return_value = mock_response
 
@@ -71,9 +67,7 @@ def test_parse_send_whatsapp_message_response_raises_whatsapp_response_error_whe
     response = mocker.create_autospec(requests.Response)
     response.ok = False
     response.status_code = 400
-    response.url = (
-        f"https://{FACEBOOK_API_HOST}/{FACEBOOK_API_VERSION}/{FACEBOOK_API_ID}/messages"
-    )
+    response.url = f"https://{FACEBOOK_API_HOST}/{FACEBOOK_API_VERSION}/{FACEBOOK_API_ID}/messages"
     response.text = "error"
     mocker.patch("requests.Response.json").return_value = mock_response
     with pytest.raises(WhatsappResponseError):
@@ -82,58 +76,56 @@ def test_parse_send_whatsapp_message_response_raises_whatsapp_response_error_whe
         assert "code" in response.get("error", {}) and response["error"]["code"] == 100
 
 
-@patch('requests.post')
+@patch("requests.post")
 def test_request_post(mock_post):
-    mock_post.return_value.json.return_value = {'success': True}
+    mock_post.return_value.json.return_value = {"success": True}
     client = WhatsappClient()
-    payload = {'key': 'value'}
-    method = 'POST'
-    url = '/test'
+    payload = {"key": "value"}
+    method = "POST"
+    url = "/test"
 
     response = client.request(payload, method, url)
 
     mock_post.assert_called_once_with(
-        url=client.base_uri + url,
-        json=payload,
-        headers=client._whatsapp_http_header()
+        url=client.base_uri + url, json=payload, headers=client._whatsapp_http_header()
     )
-    assert response.json() == {'success': True}
+    assert response.json() == {"success": True}
 
 
 def test_request_not_post():
     client = WhatsappClient()
-    payload = {'key': 'value'}
-    method = 'GET'
-    url = '/test'
+    payload = {"key": "value"}
+    method = "GET"
+    url = "/test"
 
     with pytest.raises(NotImplementedError):
         client.request(payload, method, url)
 
 
-@patch('requests.post')
+@patch("requests.post")
 def test_request_post_invalid_url(mock_post, monkeypatch):
     monkeypatch.setenv("api_token", "test_token")
-    mock_post.return_value.json.return_value = {'success': True}
+    mock_post.return_value.json.return_value = {"success": True}
     client = WhatsappClient()
-    payload = {'key': 'value'}
-    method = 'POST'
-    url = 'http://invalid_url.com/test'
+    payload = {"key": "value"}
+    method = "POST"
+    url = "http://invalid_url.com/test"
 
     with pytest.raises(ValueError):
         client.request(payload, method, url)
 
 
-@patch('requests.post')
+@patch("requests.post")
 def test_request_post_headers(mock_post, monkeypatch):
     monkeypatch.setenv("api_token", "test_token")
-    mock_post.return_value.json.return_value = {'success': True}
+    mock_post.return_value.json.return_value = {"success": True}
     client = WhatsappClient()
-    payload = {'key': 'value'}
-    method = 'POST'
-    url = '/test'
+    payload = {"key": "value"}
+    method = "POST"
+    url = "/test"
 
     response = client.request(payload, method, url)
 
     headers = client._whatsapp_http_header()
     mock_post.assert_called_once_with(url=client.base_uri + url, json=payload, headers=headers)
-    assert response.json() == {'success': True}
+    assert response.json() == {"success": True}

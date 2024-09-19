@@ -1,4 +1,5 @@
 """ Tests configurations """
+
 # pylint: disable=W0611
 from .unit._factories import (
     user_factory,
