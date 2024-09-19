@@ -8,7 +8,9 @@ from os.path import join, dirname
 from typing import List, Optional
 import requests
 from role_based_app.users.domain.exceptions.invalid_token_error import InvalidTokenError
-from role_based_app.users.domain.exceptions.invalid_credentials_error import InvalidCredentialsError
+from role_based_app.users.domain.exceptions.invalid_credentials_error import (
+    InvalidCredentialsError
+)
 from role_based_app.users.domain.exceptions.token_expired_error import TokenExpiredError
 from sqlalchemy.exc import DBAPIError
 from role_based_app.users.domain.exceptions.internal_server_error import InternalServerError
@@ -152,8 +154,8 @@ class BotoMessageRepository(EmailMessageRepository):
         self.env = Environment(
             loader=ChoiceLoader(
                 [
-                    FileSystemLoader("role-based_app/users/infrastructure/templates/"),
-                    FileSystemLoader("role-based_app/shared/commons/templates/"),
+                    FileSystemLoader("role_based_app/users/infrastructure/templates/"),
+                    FileSystemLoader("role_based_app/shared/commons/templates/"),
                 ]
             )
         )

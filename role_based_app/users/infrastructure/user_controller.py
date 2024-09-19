@@ -10,7 +10,9 @@ from role_based_app.shared.infrastructure.dependency_injection.services_factory 
 from role_based_app.shared.infrastructure.postgresql.session_db import SessionDb
 from role_based_app.users.domain.entities.user import UserDtoIn, UserLoginDto, UserNewPasswordDto
 from role_based_app.users.domain.exceptions.internal_server_error import InternalServerError
-from role_based_app.users.domain.exceptions.invalid_credentials_error import InvalidCredentialsError
+from role_based_app.users.domain.exceptions.invalid_credentials_error import (
+    InvalidCredentialsError
+)
 from role_based_app.users.domain.exceptions.invalid_password_error import InvalidPasswordError
 from role_based_app.users.domain.exceptions.not_active_account_error import NotActiveAccountError
 from role_based_app.users.domain.exceptions.phone_number_not_provided import PhoneNumberNotProvided

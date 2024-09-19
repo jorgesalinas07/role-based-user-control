@@ -42,12 +42,12 @@ jobs:
       - name: Run linters
         run: |
           docker-compose up -d role-based-backend-unit-tests
-          docker exec role-based-app-backend-unit-tests poetry run pylint --extension-pkg-whitelist='pydantic' role-based_app
-          docker exec role-based-app-backend-unit-tests poetry run pylint --extension-pkg-whitelist='pydantic' tests
-          docker exec role-based-app-backend-unit-tests poetry run flake8 role-based_app
-          docker exec role-based-app-backend-unit-tests poetry run flake8 tests
+          docker exec role-based-backend-unit-tests poetry run pylint --extension-pkg-whitelist='pydantic' role_based_app
+          docker exec role-based-backend-unit-tests poetry run pylint --extension-pkg-whitelist='pydantic' tests
+          docker exec role-based-backend-unit-tests poetry run flake8 role_based_app
+          docker exec role-based-backend-unit-tests poetry run flake8 tests
 
       - name: Run Docker Tests
         run: |
           docker-compose up -d role-based-backend
-          docker exec role-based-app-backend poetry run pytest --disable-warnings -v tests
+          docker exec role-based-backend poetry run pytest --disable-warnings -v tests

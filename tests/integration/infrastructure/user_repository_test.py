@@ -176,7 +176,7 @@ def test__validate_code_raises_invalid_token_email():
 def test_send_confirmation_email_returns_reponse_successfully(user_model_factory):
     repository = BotoMessageRepository()
     token = "123456"
-    user = user_model_factory(email="adriana@role-based.com")
+    user = user_model_factory(email="adriana@kaumer.com")
 
     repository.client.verify_email_identity(EmailAddress=repository.sender)
 

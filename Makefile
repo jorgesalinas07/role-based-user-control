@@ -169,11 +169,11 @@ docker_unit_test:
 
 docker_integration_test:
 	docker-compose up -d role-based-backend
-	docker exec -it role-based-app-backend poetry run pytest --disable-warnings -vv tests/integration
+	docker exec -it role-based-backend poetry run pytest --disable-warnings -vv tests/integration
 
 docker_test:
 	docker-compose up -d role-based-backend
-	docker exec -it role-based-app-backend poetry run pytest --disable-warnings -v tests
+	docker exec -it role-based-backend poetry run pytest --disable-warnings -v tests
 
 docker_lint:
 	docker-compose up -d role-based-backend-unit-tests

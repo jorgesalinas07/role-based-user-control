@@ -30,7 +30,7 @@ from role_based_app.users.domain.exceptions.whatsapp_response_error import (
 def _user_use_case_mocked(mocker) -> Callable:
     def _user_use_case(user_DTO: any, user_use_case) -> None:
         mocker.patch(
-            "role-based_app.users.infrastructure.user_controller.user_service_factory",
+            "role_based_app.users.infrastructure.user_controller.user_service_factory",
             return_value=mocker.Mock(),
         )
         mocker.patch.object(user_use_case, "execute", side_effect=user_DTO)

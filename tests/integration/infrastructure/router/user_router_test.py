@@ -167,11 +167,11 @@ def test__home_returns_message_when_valid_token():
     token_repository = JWTAuthenticationRepository()
     token = token_repository.gen_verification_token(payload)
     response = client.get(
-        "/user/home",
+        "/user/healthy-check",
         headers={"Authorization": f"Bearer {token}"},
     )
     assert response.status_code == 200
-    assert response.json() == {"role-based": "home"}
+    assert response.json() == {"healthy-check": "healthy"}
 
 
 def test__home_raises_exception_when_invalid_token():
@@ -183,7 +183,7 @@ def test__home_raises_exception_when_invalid_token():
     token_repository = JWTAuthenticationRepository()
     token = token_repository.gen_verification_token(payload)
     response = client.get(
-        "/user/home",
+        "/user/healthy-check",
         headers={"Authorization": f"Bearer {token}"},
     )
     assert response.status_code == 403

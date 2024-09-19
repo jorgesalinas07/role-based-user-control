@@ -9,7 +9,9 @@ from role_based_app.users.domain.exceptions.token_expired_error import TokenExpi
 from role_based_app.users.domain.services.user_service import LOGIN_TOKEN_TYPE
 from starlette.status import HTTP_403_FORBIDDEN
 
-from role_based_app.users.infrastructure.persistance.user_repository import JWTAuthenticationRepository
+from role_based_app.users.infrastructure.persistance.user_repository import (
+    JWTAuthenticationRepository
+)
 
 load_dotenv(verbose=True)
 dotenv_path = join(dirname(__file__), ".env")
