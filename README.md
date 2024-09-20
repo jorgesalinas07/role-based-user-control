@@ -161,3 +161,6 @@ This drawing shows how these three folders work and what logic should be include
 ### Note: All controllers must have absolute imports
 ## AWS Architecture
 ![AWS architecture](https://i.imgur.com/hcTNeTP.png)
+
+## Quick look at the app
+![app](https://i.imgur.com/x1Iwl6E.png)
