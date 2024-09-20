@@ -1,0 +1,75 @@
+@startuml Deploy_diagram
+(*) --> "Tickets are created by the PMs,
+TL, Js TL, Devs, and stakeholders."
+
+-->[Assigned on the planning or are proactively taken] "PMs or Jr Tech Lead will have a meeting 
+with each developer to make sure every
+ticket details are clear."
+
+-->[Using single trunk base development] "Using git, place on the development branch 
+and pull updates from remote (git pull)."
+
+--> "Create a new branch from the updated development by the Jira
+command provided (git checkout -b OFI-xxx-ticket name)."
+
+-->"Pair and ask about blockers in the team's dev huddles."
+
+--> "Are there existing test for the ticket?"
+
+if then
+  -->[true] "Modify existing test for the new feature"
+  -right-> (*)
+else
+  ->[false] "Write unit test case"
+  -->(*)
+endif
+
+--> "Execute test"
+
+--->[fail] "Write code"
+
+if then
+    ----> "Execute test"
+else
+    -->[pass] "Do commits - remember to use the commits convention at the beginning
+     of every commit message (fix,restore,update…)."
+endif
+
+--> "PM will have a meeting to make sure the ticket scope has been completely fulfilled."
+
+--> "Resolve linter and test errors before pushing your changes (git push)."
+
+--> "Create PR in GitHub.
+If conflicts, resolve them locally and push changes again [rebase or merge]."
+
+--> "¿Reviewers approved PR?"
+
+if then
+    --> [No] "Review and solve requested changes"
+
+    --> "Ask for review"
+
+    --> "¿Reviewers approved PR?"
+else
+    ---> [Yes] "¿Local and Stage QA Reviewer
+     approved PR?"
+endif
+
+if then
+    --> [No] "Review and solve requested changes 
+    <<local and Stage QA>>"
+
+    --> "Ask for review <<local and Stage QA>>"
+
+    --> "¿Local and Stage QA Reviewer
+     approved PR?"
+else
+    ---> [Yes] "<<Squash and merge>> your ticket in Github and 
+    place the ticket on <<Done>>."
+endif
+
+
+--->"All the group have a meeting to discuss and 
+    prioritaze the tickets for the next sprint."
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml role-based_C4
+
+!include ./C4_Container.puml
+!include ./C4_Context.puml
+!include ./C4_Component.puml
+
+Person(Customer, "role-based Customer")
+
+Person(Manager, "role-based Manager")
+
+System_Boundary(c1, "role-based app") {
+    Container(Frontend, "Frontend", "Next.js deployed to AWS Lambda & CloudFront", "Manage invoices and inventory requests.")
+
+    Container(User_Reservation_API, "role-based API", "Python", "Manage invoices and inventory requests in database.")
+
+    Container(mobile_app, "Mobile App", "Flutter", "Manage invoices and inventory requests through phones.")
+
+    ComponentDb(database, "Database", "PosgreSQL", "Save invoices, products, users and statistics information.")
+}
+
+System_Ext(Authentication, "Auth App", "Software to authenticate and authorize users.")
+
+
+Rel(Customer, Frontend, "Generate POS invoices, create restaurant profiles and check inventory", "HTTPS")
+
+Rel(Manager, User_Reservation_API, "Give permissions", "HTTPS")
+
+Rel(Customer, mobile_app, "Generate POS invoices, create restaurant profiles and check inventory", "HTTPS")
+
+Rel(mobile_app, User_Reservation_API, "Request APIs calls", "HTTPS")
+
+Rel(Frontend, User_Reservation_API, "Request APIs calls", "HTTPS")
+
+Rel(User_Reservation_API, database, "Store bookings information", "HTTPS")
+
+Rel(User_Reservation_API, Authentication, "Software to authenticate and authorize users.", "HTTPS")
+
+@enduml

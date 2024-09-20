@@ -1,0 +1,17 @@
+@startuml role-based_C4
+
+!include ./C4_Container.puml
+!include ./C4_Context.puml
+!include ./C4_Component.puml
+
+Person(Manager, "role-based Customer")
+
+Person(Customer, "role-based Manager")
+
+Container(web_app, "role-based app", "", "Allows restaurants to manage their invoices and products depending on their needs.")
+
+
+Rel(Manager, web_app, "Generate POS invoices, create restaurant profiles and check inventory", "HTTPS")
+Rel(Customer, web_app, "Give permissions", "HTTPS")
+
+@enduml
