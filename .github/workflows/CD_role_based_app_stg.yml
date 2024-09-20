@@ -1,9 +1,6 @@
 name: General CD
 
 on:
-  push:
-    branches:
-      - main
 
 jobs:
   build-role-based-cd:
